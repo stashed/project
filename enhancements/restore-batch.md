@@ -21,7 +21,7 @@ Currently, we have `BackupBatch` CRD that allows the users to backup multiple ta
 
 ### Goal
 
-The goal of this KEPS can be summarized as below:
+The goal of this doc can be summarized as below:
 
 1. Ensure 1:1 Mapping between `Repository` and `BackupBatch` CRD.
 2. Introduce `RestoreBatch` CRD.
@@ -222,5 +222,5 @@ The `.status` section of the `RestoreBatch` should be similar to the `.status` s
 
 The underlying `restic` tool can backup and restore in parallel to and from a single repository for different `hosts`. So, the members of the `BackupBatch` or `RestoreBatch` can be backed up / restored in parallel. However, there might be a case where the user may need an order guarantee for the members. In this case, we can do the followings:
 
-1. Introduce a top-level boolean field named `maintainOrder` in the `.spec` section of the `BackupBatch` or `RestoreBatch`. If the value of this field is `false` (which is the default value), we can run the backup/restore in parallel. This will match our current behavior. If it is `true` then we will run backup/restore in the same order as the targets are specified in `members` section.
+1. Introduce a top-level field named `executionOrder` in the `.spec` section of the `BackupBatch` or `RestoreBatch`. If the value of this field is `Parallel` (which will be the default value), we can run the backup/restore in parallel. This will match our current behavior. If the value is `Sequential` then we will run backup/restore in the same order as the targets are specified in `members` section.
 2. We can always run the backup/restore maintaining the order. In this approach, the user may lose the performance benefits that were possible in parallel backup/restore.
