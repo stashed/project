@@ -74,7 +74,7 @@ There might be some issues with the proposed models. They are acknowledged below
 
 Some clusters do not allow creating a workload without specifying the `resources` section of the container. Since the pod/Deployment will be created by the Stash operator itself, the user won't have control over this field.
 
-One possible solution to this problem could be always creating the pod/Deployment with some minimum amount of `resources`. This could be `50m` for CPU and `128M` for Memory.
+One possible solution to this problem could be always creating the pod/Deployment with some minimum amount of `resources`. This could be `100m` for CPU and `128M` for Memory. We can provide this default value via flag during installing Stash operator.
 
 ### PSP Enabled Cluster
 
