@@ -1,0 +1,14 @@
+apiVersion: appcatalog.appscode.com/v1alpha1
+kind: AppBinding
+metadata:
+  name: sample-postgres
+  namespace: demo
+spec:
+  clientConfig:
+    service:
+      name: sample-postgres
+      port: 5432
+      scheme: postgresql
+  secret:
+    name: sample-postgres
+  type: postgres

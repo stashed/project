@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sample-postgres
+  namespace: demo
+stringData:
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: admin123
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-postgres
+  namespace: demo
+  labels:
+    app: sample-postgres
+spec:
+  ports:
+  - port: 5432
+  selector:
+    app: sample-postgres
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-postgres
+  namespace: demo
+  labels:
+    app: sample-postgres
+spec:
+  selector:
+    matchLabels:
+      app: sample-postgres
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sample-postgres
+    spec:
+      containers:
+      - image: postgres:12.4
+        name: postgres
+        envFrom:
+        - secretRef:
+            name: sample-postgres
+        ports:
+        - containerPort: 5432
+          name: postgres
+        volumeMounts:
+        - name: storage
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: sample-postgres
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sample-postgres
+  namespace: demo
+  labels:
+    app: sample-postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
