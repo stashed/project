@@ -1,0 +1,13 @@
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: s3-repo
+  namespace: demo
+spec:
+  backend:
+    s3:
+      endpoint: s3.amazonaws.com
+      bucket: appscode-ci
+      region: us-east-1
+      prefix: /appscode/stash/backup/sample-mysql
+    storageSecretName: s3-secret
