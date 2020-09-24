@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sample-mongo
+  namespace: demo
+stringData:
+  username: admin
+  password: admin123
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-mongo
+  namespace: demo
+  labels:
+    app: sample-mongo
+spec:
+  ports:
+  - port: 27017
+  selector:
+    app: sample-mongo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-mongo-gvr
+  namespace: demo
+  labels:
+    app: sample-mongo
+spec:
+  clusterIP: None
+  ports:
+  - port: 27017
+  selector:
+    app: sample-mongo
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sample-mongo
+  namespace: demo
+  labels:
+    app: sample-mongo
+spec:
+  replicas: 1
+  serviceName: sample-mongo-gvr
+  selector:
+    matchLabels:
+      app: sample-mongo
+  template:
+    metadata:
+      labels:
+        app: sample-mongo
+    spec:
+      containers:
+      - image: mongo:4.2.3
+        name: mongo
+        env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: sample-mongo
+              key: username
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sample-mongo
+              key: password
+        ports:
+        - containerPort: 27017
+          name: mgo
+        volumeMounts:
+        - name: storage
+          mountPath: /data/db
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: sample-mongo
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: sample-mongo
+  namespace: demo
+  labels:
+    app: sample-mongo
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
