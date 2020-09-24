@@ -1,0 +1,14 @@
+apiVersion: appcatalog.appscode.com/v1alpha1
+kind: AppBinding
+metadata:
+  name: sample-mongo
+  namespace: demo
+spec:
+  clientConfig:
+    service:
+      name: sample-mongo
+      port: 27017
+      scheme: mongodb
+  secret:
+    name: sample-mongo
+  type: mongodb

@@ -123,6 +123,12 @@ $ kubectl create secret generic -n demo s3-secret \
     --from-file=./AWS_SECRET_ACCESS_KEY
 ```
 
+- Create Repository
+
+```bash
+kubectl apply -f ./repository.yaml
+```
+
 - Create BackupConfiguration
 
 ```bash
