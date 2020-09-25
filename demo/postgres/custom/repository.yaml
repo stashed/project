@@ -9,5 +9,5 @@ spec:
       endpoint: s3.amazonaws.com
       bucket: appscode-ci
       region: us-east-1
-      prefix: /appscode/stash/backup/sample-mysql
+      prefix: /appscode/stash/backup/sample-postgres
     storageSecretName: s3-secret

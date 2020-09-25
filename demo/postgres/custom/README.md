@@ -247,17 +247,6 @@ postgres=# \l
 
 postgres=# \c records
 You are now connected to database "records" as user "postgres".
-records=# \l
-                                 List of databases
-   Name    |  Owner   | Encoding |  Collate   |   Ctype    |   Access privileges   
------------+----------+----------+------------+------------+-----------------------
- postgres  | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
- records   | postgres | UTF8     | en_US.utf8 | en_US.utf8 | 
- template0 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-           |          |          |            |            | postgres=CTc/postgres
- template1 | postgres | UTF8     | en_US.utf8 | en_US.utf8 | =c/postgres          +
-           |          |          |            |            | postgres=CTc/postgres
-(4 rows)
 
 records=# \d
           List of relations
