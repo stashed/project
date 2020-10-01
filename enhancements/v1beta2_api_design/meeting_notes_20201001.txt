@@ -1,0 +1,93 @@
+```
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: gcs-demo-repo
+  namespace: demo
+spec:
+  backend:
+    gcs:
+      bucket: stash-demo-backup
+      prefix: demo
+    storageSecretName: gcs-secret
+  wipeOut: false
+```
+
+--------------
+
+BackupConfig / BackupBatch (which section per Target?)
+
+execOps:
+  - alias: full
+    schedule: @daily
+  - alias: incremental
+    schedule: */15
+  - alias: restoreTask
+    schedule: 0 */2
+
+sidecar ? (per target ?)
+  - execAlias: (full, incremental)
+  - Fn
+    - container name
+    - runtime params
+
+Restore:
+  - execAlias: (restoreTest)
+  - Task
+
+--------------
+
+BackupVerifierConfiguration
+
+Task
+- HelmInstall
+- HelmUninstall
+
+Test agianst Multiple repo?
+
+- Always test against one repos?
+- Different schedule for each repo?
+
+
+BackupVerifierSession_T & BackupSession_T+1 can overlap
+
+BackupSession
+
+
+DataStored
+TestBackup
+Success/Fail
+
+TestConfig -> BackupConfig/BatchBatch (per target)
+
+jobTemplate -> RestoreTest task?
+
+
+
+Do we need to create separate RestoreSession?
+Does BackupSession has data to generate RestoreSession?
+How often you want to test for restore?
+
+RestoreTest Job
+---> Launch DB etc
+---> Test restored data
+     ---> Summary status
+
+---> shutdown, cleanup DB etc.
+---> Update status
+
+RBAC for this?
+
+
+BluePrint does all these new things?
+
+
+
+
+Customizability
+Simplicity
+RBAC (Authority, Division of Labor Ops/Dev team)
+
+
+
+
