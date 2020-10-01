@@ -125,4 +125,6 @@ restic tee env variables
 - Diff password using password file
 - Cloud credentials?
 
+- https://www.zupzup.org/io-pipe-go/
+- https://rodaine.com/2015/04/async-split-io-reader-in-golang/
 
