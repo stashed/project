@@ -122,6 +122,8 @@ last_snapshpot_id (not needed, always use latest snapshot for that host)
 
 restic tee env variables
 
+`echo "Leeroy Jenkins" | tee >(X=1 env | sort > out1) >(X=2 env | sort > out2) > out3`
+
 - Diff password using password file
 - Cloud credentials?
 
