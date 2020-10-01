@@ -1,3 +1,10 @@
+Goals
+=====
+- Customizability
+- Simplicity
+- RBAC (Authority, Division of Labor Ops/Dev team)
+
+
 ```
 apiVersion: stash.appscode.com/v1alpha1
 kind: Repository
@@ -82,12 +89,33 @@ RBAC for this?
 BluePrint does all these new things?
 
 
+--------------
+MariaDB
+
+- Only take backup from mariaDB Master even if sidecar mounted in all StatefulSet pods
+- Check if full backup subdir present? if not take full backup even in incremental schedule.
+
+- Restore PITR support
 
 
-Customizability
-Simplicity
-RBAC (Authority, Division of Labor Ops/Dev team)
+Full/ Incremental backup type?
+Is backup replable?
+
+metadata index
+
+- Reset index file when "full"(or such alias) backup is taken
+- Incremental add to index file
+
+metadata.index
+=================
+timestamp | alias
 
 
+2 scenarios where take "full" backup even in incremental schedule:
+
+- full backup subdir not found
+- metdata.index for latest snapshot does not match the index found in temp dir.
+
+last_snapshpot_id (not needed, always use latest snapshot for that host)
 
 
