@@ -1,0 +1,15 @@
+apiVersion: stash.appscode.com/v1alpha1
+kind: Repository
+metadata:
+  name: mariadb-backup
+  namespace: demo
+spec:
+  backends:
+  - gcs:
+      bucket: stash-backup
+      prefix: demo
+    storageSecretName: gcs-secret
+  - s3:
+      bucket: stash-backup
+      prefix: demo
+    storageSecretName: s3-secret

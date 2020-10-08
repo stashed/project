@@ -50,7 +50,7 @@ Task
 - HelmInstall
 - HelmUninstall
 
-Test agianst Multiple repo?
+Test against Multiple repos?
 
 - Always test against one repos?
 - Different schedule for each repo?

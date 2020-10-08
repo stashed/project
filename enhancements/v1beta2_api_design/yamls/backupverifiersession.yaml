@@ -1,0 +1,9 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupVerificationSession
+metadata:
+  name: mariadb-backup-verification-123456
+spec:
+  verificationConfiguration: mariadb-backup-verification-10.2
+  backupSession: mariadb-backup-1578458376
+status:
+  phase: Succeeded

@@ -1,0 +1,69 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: RestoreSession
+metadata:
+  name: statefulset-restore
+  namespace: demo
+spec:
+  driver: Restic
+  repository:
+    name: minio-repo
+  # task:
+  #   name: workload-restore # task field is not required for workload data backup but it is necessary for database backup.
+  target:
+    alias: my-sts
+    ref:
+      apiVersion: apps/v1
+      kind: StatefulSet
+      name: recovered-statefulset
+    volumeMounts:
+    - mountPath: /source/data
+      name: source-data
+    rules:
+    - targetHosts: ["my-sts-3","my-sts-4"] # "pod-3" and "pod-4" will have restored data of backed up host "pod-1"
+      sourceHost: "my-sts-1" # source host
+      paths:
+      - /source/data
+      include:
+      - /source/data/*.json
+    - targetHosts: [] # empty host match all hosts
+      sourceHost: "" # no source host indicates that the host is pod itself
+      paths:
+      - /source/data
+      exclude:
+      - /source/data/tmp.json
+      - /source/data/*.txt
+  hooks:
+    preRestore:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - echo "Sample PreRestore hook demo"
+      containerName: stash-init
+    postRestore:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - echo "Sample PostRestore hook demo"
+      containerName: stash-init
+status:
+  totalHosts: 5
+  phase: Succeeded
+  sessionDuration: 2m40.595857548s
+  stats:
+  - duration: 884.431745ms
+    hostname: host-1
+    phase: Succeeded
+  - duration: 769.924342ms
+    hostname: host-2
+    phase: Succeeded
+  - duration: 868.694738ms
+    hostname: host-3
+    phase: Succeeded
+  - duration: 792.097784ms
+    hostname: host-4
+    phase: Succeeded
+  - duration: 833.139795ms
+    hostname: host-0
+    phase: Succeeded

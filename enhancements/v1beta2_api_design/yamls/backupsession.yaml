@@ -1,0 +1,33 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupSession
+metadata:
+  labels:
+    app: stash
+    stash.appscode.com/invoker-name: mariadb-backup
+    stash.appscode.com/invoker-type: BackupConfiguration
+  name: mariadb-backup-1578458376
+  namespace: demo
+spec:
+  alias: full-backup
+  invoker:
+    apiGroup: stash.appscode.com
+    kind: BackupBatch
+    name: mariadb-backup
+status:
+  phase: Succeeded
+  sessionDuration: 22.575920065s
+  targets:
+  - phase: Succeeded
+    ref:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+      name: sample-mariadb
+    summary:
+      databases:
+      - name: abc
+        tables:
+        - name: test
+          rowCount: 32
+        - name: test2
+          rowCount: demo
+    totalHosts: 1

@@ -1,0 +1,31 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupConfiguration
+metadata:
+  name: mariadb-backup
+  namespace: demo
+spec:
+  driver: Restic
+  repository:
+    name: mariadb-backup
+  sessions:
+  - alias: full-backup
+    schedule: "0 0 * * *"
+  - alias: incremental-backup
+    schedule: "*/15 * * *"
+  target:
+    alias: sample-mariadb
+    ref:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+      name: sample-mariadb
+    backupVerification:
+      sessions:
+      - full-backup
+      verifier: mariadb-backup-verifier
+      backends:
+      - gcs
+      - s3
+  retentionPolicy:
+    name: 'keep-last-5'
+    keepLast: 5
+    prune: true
