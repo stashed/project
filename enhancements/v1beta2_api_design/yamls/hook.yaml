@@ -1,0 +1,29 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupConfiguration
+metadata:
+  name: backup-hook-demo
+  namespace: demo
+spec:
+  schedule: "*/5 * * * *"
+  task:
+    name: mysql-backup-8.0.14
+  repository:
+    name: gcs-repo
+  hooks:
+    preRestore:
+    exec:
+      command: ["/bin/sh","-c","rm -rf /corrupted/data/directory"]
+    executor:
+      functionName: sample-hook-executor
+      params:
+        a: b
+        c: d
+  target:
+    ref:
+      apiVersion: apps/v1
+      kind: StatefulSet
+      name: sample-sts
+  retentionPolicy:
+    name: keep-last-5
+    keepLast: 5
+    prune: true

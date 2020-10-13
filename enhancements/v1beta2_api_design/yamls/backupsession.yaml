@@ -11,7 +11,7 @@ spec:
   alias: full-backup
   invoker:
     apiGroup: stash.appscode.com
-    kind: BackupBatch
+    kind: BackupConfiguration
     name: mariadb-backup
 status:
   phase: Succeeded
@@ -19,15 +19,7 @@ status:
   targets:
   - phase: Succeeded
     ref:
-      apiVersion: appcatalog.appscode.com/v1alpha1
-      kind: AppBinding
+      apiVersion: apps/v1
+      kind: StatefulSet
       name: sample-mariadb
-    summary:
-      databases:
-      - name: abc
-        tables:
-        - name: test
-          rowCount: 32
-        - name: test2
-          rowCount: demo
     totalHosts: 1
