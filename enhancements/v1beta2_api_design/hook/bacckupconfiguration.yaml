@@ -10,14 +10,16 @@ spec:
   repository:
     name: gcs-repo
   hooks:
-    preRestore:
-    exec:
-      command: ["/bin/sh","-c","rm -rf /corrupted/data/directory"]
-    executor:
-      functionName: sample-hook-executor
-      params:
-        a: b
-        c: d
+    preBackup:
+      exec:
+      - /bin/sh
+      - -c
+      - mysql -u root --password=$MYSQL_ROOT_PASSWORD -h sample-mysql.demo.svc -p 3366 -e "SET GLOBAL super_read_only = ON;"
+      executor:
+        functionName: mysql-hook-executor
+        params:
+          a: b
+          c: d
   target:
     ref:
       apiVersion: apps/v1

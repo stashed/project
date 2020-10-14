@@ -77,7 +77,7 @@ Here,
 
 ## Backward Compatibility
 
-Stash will inject the custom sidecar only if `target.sidecar` section is provided. Otherwise, Stash will inject the pre-defined `stash` sidecar. So, it should be backward compatible with existing behavior. No additional works are required.
+Stash will inject the custom sidecar only if `target.sidecar` section is provided. Otherwise, Stash will inject the pre-defined `stash` sidecar. So, it should be backward compatible with existing behavior. No additional efforts are required.
 
 ## Possible Problems and Solution
 
