@@ -29,11 +29,6 @@ spec:
       apiVersion: apps/v1
       kind: StatefulSet
       name: sample-mariadb
-    sidecar:
-      functionName: maria-backup
-      params:
-        a: b
-        c: d
   retentionPolicy:
     name: 'keep-last-5'
     keepLast: 5

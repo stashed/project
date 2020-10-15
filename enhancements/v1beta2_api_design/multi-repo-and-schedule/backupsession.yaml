@@ -1,0 +1,30 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupSession
+metadata:
+  labels:
+    stash.appscode.com/invoker-name: sts-backup
+    stash.appscode.com/invoker-type: BackupConfiguration
+  name: sts-backup-1578458376
+  namespace: demo
+spec:
+  type: full-backup
+  sessionName: daily-backup
+  invoker:
+    apiGroup: stash.appscode.com
+    kind: BackupConfiguration
+    name: mariadb-backup
+status:
+  phase: Succeeded
+  sessionDuration: 22.575920065s
+  targets:
+  - phase: Succeeded
+    ref:
+      apiVersion: apps/v1
+      kind: StatefulSet
+      name: sample-mariadb
+    repositories:
+    - name: gcs-repo
+      phase: Succeeded
+    - name: minio-repo
+      phase: Succeeded
+    totalHosts: 1

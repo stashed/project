@@ -1,0 +1,15 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: Repository
+metadata:
+  name: gcs-repo
+  namespace: demo
+spec:
+  backend:
+    gcs:
+      bucket: stash-backup
+      prefix: demo
+    storageSecretName: gcs-secret
+  retentionPolicy:
+    name: "keep-last-5"
+    keepLast: 5
+    prune: true
