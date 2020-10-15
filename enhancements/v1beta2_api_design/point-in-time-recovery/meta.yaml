@@ -1,0 +1,40 @@
+repoInfo: # maybe Stash CLI can use this info to re-construct Repository CRDs in a new cluster
+  name: gcs-repo
+  namespace: demo
+  backend:
+    gcs:
+      bucket: stash-backup
+      prefix: demo
+    storageSecretName: gcs-secret
+  retentionPolicy:
+    name: "keep-last-5"
+    keepLast: 5
+    prune: true
+snapshots:
+- name: gcs-repo-b54ee4a0
+  uid: b54ee4a0e9c9084696dc976f125c4fd0e6b1a31abfd82cfc857b3bc9e559fa2f
+  creationTimestamp: "2020-07-24T17:41:31Z"
+  hostname: app
+  username: "stash-demo-2lsowls"
+  userID: 2000
+  groupID: 2000
+  paths:
+  - /var/lib/html
+- name: gcs-repo-b54ee4a0
+  uid: aedade4a0e9c9084696dc976f125c4fd0e6b1a31abfd82cfc857b3bc9e559fa2f
+  creationTimestamp: "2020-07-23T17:41:31Z"
+  hostname: app
+  username: "stash-demo-2lsowls"
+  userID: 2000
+  groupID: 2000
+  paths:
+  - /var/lib/html
+- name: gcs-repo-b54ee4a0
+  uid: 3s3sc9084696dc976f125c4fd0e6b1a31abfd82cfc857b3bc9e559fa2f
+  creationTimestamp: "2020-07-25T17:41:31Z"
+  hostname: app
+  username: "stash-demo-2lsowls"
+  userID: 2000
+  groupID: 2000
+  paths:
+  - /var/lib/html

@@ -1,4 +1,4 @@
-apiVersion: stash.appscode.com/v1beta1
+apiVersion: stash.appscode.com/v1beta2
 kind: RestoreSession
 metadata:
   name: sample-mysql-restore
@@ -16,5 +16,7 @@ spec:
       kind: AppBinding
       name: restored-mysql
   rules:
-    - pitr:
-        targetTime: "2019-09-27T05:07:34Z"
+  - paths:
+    - /source/data/
+    pitr:
+      targetTime: "2019-09-27T05:07:34Z"
