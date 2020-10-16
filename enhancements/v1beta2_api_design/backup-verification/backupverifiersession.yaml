@@ -2,11 +2,25 @@ apiVersion: stash.appscode.com/v1beta2
 kind: BackupVerificationSession
 metadata:
   name: mariadb-backup-verification-123456
+  namespace: demo
 spec:
   sessionType: full-backup
+  sessionName: full-backup-to-gcs-s3
   invoker:
     apiGroup: stash.appscode.com
     kind: BackupConfiguration
     name: mariadb-backup
+  verifier: maria-backup-verify-full
+  params:
+  - name: releaseName
+    value: sample-mariadb
+  repositories:
+  - gcs-repo
+  - s3-repo
 status:
   phase: Succeeded
+  repositories:
+  - name: gcs-repo
+    phase: Succeeded
+  - name: s3-repo
+    phase: Succeeded

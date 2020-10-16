@@ -5,33 +5,33 @@ metadata:
   namespace: demo
 spec:
   driver: Restic
-  sessions:
-  - name: full-backup-gcs-s3
-    type: full-backup
-    schedule: "0 0 * * *"
-    repositories:
-    - gcs-repo
-    - s3-repo
-    verify:
-      schedule: "0 0 */4 * *"
-      verifier: maria-backup-verify-full
-  - name: incremental-backup-to-nfs
-    type: incremental-backup
-    schedule: "*/15 * * *"
-    repositories:
-    - nfs-repo
-    verify:
-      schedule: "/15 * * * *"
-      verifier: maria-backup-verify-quick
   target:
     alias: sample-mariadb
     ref:
       apiVersion: apps/v1
       kind: StatefulSet
       name: sample-mariadb
-  retentionPolicy:
-    name: 'keep-last-5'
-    keepLast: 5
-    prune: true
-status:
-  nextSessions:
+  sessions:
+  - name: full-backup-to-gcs-s3
+    type: full-backup
+    schedule: "0 0 * * *"
+    repositories:
+    - gcs-repo
+    - s3-repo
+    verify:
+      schedule: "0 0 * * *"
+      verifier: maria-backup-verify-full
+      params:
+      - name: releaseName
+        value: sample-mariadb
+  - name: incremental-backup-to-gcs
+    type: incremental-backup
+    schedule: "*/15 * * *"
+    repositories:
+    - gcs-repo
+    verify:
+      schedule: "*/45 * * * *"
+      verifier: maria-backup-verify-quick
+      params:
+      - name: releaseName
+        value: sample-mariadb
