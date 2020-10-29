@@ -1,0 +1,13 @@
+apiVersion: stash.appscode.com/v1beta1
+kind: BackupSession
+metadata:
+  name: trigger-mg-sh-backup
+  namespace: demo
+  labels:
+    stash.appscode.com/invoker-name: mg-sh-backup
+    stash.appscode.com/invoker-type: BackupConfiguration
+spec:
+  invoker:
+    apiGroup: stash.appscode.com
+    kind: BackupConfiguration
+    name: mg-sh-backup
