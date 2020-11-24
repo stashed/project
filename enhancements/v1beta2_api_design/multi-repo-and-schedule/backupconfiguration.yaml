@@ -1,0 +1,35 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupConfiguration
+metadata:
+  name: sts-backup
+  namespace: demo
+spec:
+  driver: Restic
+  sessions:
+  - name: daily-backup
+    type: full-backup
+    schedule: "0 0 * * *" # At 00:00 of everyday
+    repositories:
+    - name: gcs-repo
+    - name: minio-repo
+  - name: weekly-backup
+    type: full-backup
+    schedule: "0 0 * * 5" # At 00:00 of every Friday
+    repositories:
+    - name: s3-repo
+  target:
+    alias: sample-sts
+    ref:
+      apiVersion: apps/v1
+      kind: StatefulSet
+      name: sample-sts
+status:
+  nextSessions:
+  - name: daily-backup
+    scheduledAt: "2020-10-14 Wed 12:00:00"
+  - name: daily-backup
+    scheduledAt: "2020-10-15 Thu 12:00:00"
+  - name: daily-backup
+    scheduledAt: "2020-10-16 Fri 12:00:00"
+  - name: weekly-backup
+    scheduledAt: "2020-10-16 Fri 12:00:00"

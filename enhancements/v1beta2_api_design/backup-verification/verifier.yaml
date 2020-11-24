@@ -1,0 +1,22 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: Task
+metadata:
+  name: maria-backup-verify-full
+spec:
+  steps:
+  - name: helm-install
+    params:
+    - name: reuseValues
+      value: true
+  - name: mariadb-full-verify
+    params:
+    - name: sample-param
+      value: sample-value
+  - name: helm-uninstall
+    params:
+    - name: sample-param
+      value: sample-value
+  volumes:
+  - name: script-volume
+    configMap:
+      configMapName: mariadb-verification-script

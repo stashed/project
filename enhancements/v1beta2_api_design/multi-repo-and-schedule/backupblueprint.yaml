@@ -1,0 +1,44 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: BackupBlueprint
+metadata:
+  name: workload-backup-blueprint
+spec:
+  # ============== Blueprint for Repository ==========================
+  repoTemplates:
+  - name: gcs-${TARGET_SUFFIX}
+    backend:
+      gcs:
+        bucket: appscode-qa
+        prefix: stash-backup/${TARGET_NAMESPACE}/${TARGET_KIND}/${TARGET_NAME}
+      storageSecretName: gcs-secret
+    retentionPolicy:
+      name: 'keep-last-5'
+      keepLast: 5
+      prune: true
+  - name: s3-${TARGET_SUFFIX}
+    backend:
+      s3:
+        bucket: appscode-qa
+        prefix: stash-backup/${TARGET_NAMESPACE}/${TARGET_KIND}/${TARGET_NAME}
+      storageSecretName: s3-secret
+    retentionPolicy:
+      name: 'keep-last-10'
+      keepLast: 10
+      prune: true
+  # ============== Blueprint for BackupConfiguration =================
+  sessions:
+  - name: daily-full-backup
+    type: full-backup
+    schedule: "0 0 * * *"
+    repositories:
+    - gcs-${TARGET_SUFFIX}
+  - name: daily-incremental-backup
+    type: incremental-backup
+    schedule: "*/15 * * * *"
+    repositories:
+    - gcs-${TARGET_SUFFIX}
+  - name: weekly-backup
+    type: full-backup
+    schedule: "0 0 * * 5"
+    repositories:
+    - s3-${TARGET_SUFFIX}

@@ -1,0 +1,22 @@
+apiVersion: stash.appscode.com/v1beta2
+kind: RestoreSession
+metadata:
+  name: sample-mysql-restore
+  namespace: demo
+  labels:
+    kubedb.com/kind: MySQL
+spec:
+  task:
+    name: mysql-restore-8.0.14-v2
+  repository:
+    name: gcs-repo
+  target:
+    ref:
+      apiVersion: appcatalog.appscode.com/v1alpha1
+      kind: AppBinding
+      name: restored-mysql
+  rules:
+  - paths:
+    - /source/data/
+    pitr:
+      targetTime: "2019-09-27T05:07:34Z"
