@@ -1,0 +1,19 @@
+{
+    "name": "deployment-backup-1646741400",
+    "namespace": "demo",
+    "invoker":{
+        "apiGroup": "stash.appscode.com",
+        "kind": "BackupConfiguration",
+        "name": "deployment-backup"
+    },
+    "target":{
+        "apiVersion": "apps/v1",
+        "kind": "Deployment",
+        "name": "stash-demo"
+    },
+    "status":{
+        "phase": "Failed",
+        "duration": "10s",
+        "error": "failed to backup host-0. Reason: path not found"
+    }
+}
